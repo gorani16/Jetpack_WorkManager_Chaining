@@ -28,9 +28,15 @@ class MainActivity : AppCompatActivity() {
         val workManagerC = OneTimeWorkRequestBuilder<WorkManagerC>().build()
 
         // 일반적인 WorkManager 실행 (순서 상관없이 실행)
-        WorkManager.getInstance(this).enqueue(workManagerA)
-        WorkManager.getInstance(this).enqueue(workManagerB)
-        WorkManager.getInstance(this).enqueue(workManagerC)
+//        WorkManager.getInstance(this).enqueue(workManagerA)
+//        WorkManager.getInstance(this).enqueue(workManagerB)
+//        WorkManager.getInstance(this).enqueue(workManagerC)
+
+        // WorkManager Chaining
+        WorkManager.getInstance(this)
+            .beginWith(listOf(workManagerA, workManagerB))
+            .then(workManagerC)
+            .enqueue()
 
     }
 }

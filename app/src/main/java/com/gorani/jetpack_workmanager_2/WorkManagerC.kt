@@ -12,7 +12,7 @@ class WorkManagerC(private val context: Context, workerParameters: WorkerParamet
 
         for (i in 0..3) {
             sleep(1000)
-            Log.d("WorkManagerC", i.toString())
+            Log.d("WorkManager!!_C", i.toString())
         }
 
         return Result.success()
