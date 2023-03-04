@@ -7,9 +7,10 @@ import androidx.work.WorkManager
 import com.gorani.jetpack_workmanager_2.chaining.WorkManagerA
 import com.gorani.jetpack_workmanager_2.chaining.WorkManagerB
 import com.gorani.jetpack_workmanager_2.chaining.WorkManagerC
+import com.gorani.jetpack_workmanager_2.coroutine.WorkManager2
 
 /**
- * WorkManager Chaining
+ * * WorkManager Chaining
  *
  * ex.
  * A -> 순서 상관없이 실행되도 괜찮은 작업.
@@ -19,6 +20,11 @@ import com.gorani.jetpack_workmanager_2.chaining.WorkManagerC
  *
  * https://developer.android.com/topic/libraries/architecture/workmanager/how-to/chain-work?hl=ko
  *
+ * ===========================================================
+ *
+ * * WorkManager + Coroutine
+ *
+ * https://developer.android.com/topic/libraries/architecture/workmanager/advanced/coroutineworker?hl=ko
  */
 
 class MainActivity : AppCompatActivity() {
@@ -29,17 +35,21 @@ class MainActivity : AppCompatActivity() {
         val workManagerA = OneTimeWorkRequestBuilder<WorkManagerA>().build()
         val workManagerB = OneTimeWorkRequestBuilder<WorkManagerB>().build()
         val workManagerC = OneTimeWorkRequestBuilder<WorkManagerC>().build()
+        val workManager2 = OneTimeWorkRequestBuilder<WorkManager2>().build()
 
         // 일반적인 WorkManager 실행 (순서 상관없이 실행)
 //        WorkManager.getInstance(this).enqueue(workManagerA)
 //        WorkManager.getInstance(this).enqueue(workManagerB)
 //        WorkManager.getInstance(this).enqueue(workManagerC)
 
-        // WorkManager Chaining
+        // * WorkManager Chaining
         WorkManager.getInstance(this)
             .beginWith(listOf(workManagerA, workManagerB))
             .then(workManagerC)
             .enqueue()
+
+        // * WorkManager + Coroutine
+        WorkManager.getInstance(this).enqueue(workManager2)
 
     }
 }
